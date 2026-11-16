@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import type { Session } from '@supabase/supabase-js'
+import { useIsAdminQuery } from '@/features/admin/queries'
 
 type SiteHeaderProps = {
-  activePage: 'home' | 'products' | 'orders' | 'account' | null
+  activePage: 'home' | 'products' | 'orders' | 'account' | 'admin' | null
   cartCount: number
   session: Session | null
   onSignOut: () => Promise<void>
@@ -11,6 +12,7 @@ type SiteHeaderProps = {
 
 function SiteHeader({ activePage, cartCount, session, onSignOut }: SiteHeaderProps) {
   const [signOutError, setSignOutError] = useState<string | null>(null)
+  const isAdminQuery = useIsAdminQuery(session?.user.id)
 
   async function handleSignOut() {
     setSignOutError(null)
@@ -37,6 +39,11 @@ function SiteHeader({ activePage, cartCount, session, onSignOut }: SiteHeaderPro
         <Link className={`nav-link${activePage === 'orders' ? ' is-active' : ''}`} to="/orders">
           Commandes
         </Link>
+        {isAdminQuery.data && (
+          <Link className={`nav-link${activePage === 'admin' ? ' is-active' : ''}`} to="/admin">
+            Admin
+          </Link>
+        )}
       </nav>
       <div className="header-actions">
         {session ? (
@@ -60,6 +67,9 @@ function SiteHeader({ activePage, cartCount, session, onSignOut }: SiteHeaderPro
           <span className="cart-count">{cartCount}</span>
         </Link>
         {signOutError && <span className="header-error" role="alert">{signOutError}</span>}
+        {session && isAdminQuery.error && (
+          <span className="header-error" role="alert">{isAdminQuery.error.message}</span>
+        )}
       </div>
     </header>
   )

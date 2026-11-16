@@ -7,7 +7,7 @@ export const productQueryKeys = {
   detail: (slug: string) => ['products', { slug }] as const,
 }
 
-function mapProduct(row: {
+export function mapProduct(row: {
   id: string
   slug: string
   name: string

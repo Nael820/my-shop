@@ -12,6 +12,16 @@ Boutique de démonstration construite avec React, TypeScript, React Query et Sup
 
 La clé `service_role` ne doit jamais être utilisée dans le navigateur. Les tables `orders` et `order_items` sont protégées par RLS : chaque utilisateur ne peut lire que ses commandes. Le passage de commande utilise une fonction SQL transactionnelle.
 
+Pour donner les droits administrateur au premier compte, inscris-toi puis exécute dans le SQL Editor Supabase :
+
+```sql
+update public.profiles
+set role = 'admin'
+where id = (select id from auth.users where email = 'VOTRE_EMAIL');
+```
+
+Cette opération est réservée au SQL Editor; aucun utilisateur ne peut modifier son propre rôle depuis le site.
+
 ## Démarrer
 
 ```sh
@@ -27,6 +37,7 @@ npm run dev
 - `/orders` : historique de commandes personnel protégé
 - `/login` et `/signup` : authentification par e-mail
 - `/account` : espace personnel protégé
+- `/admin` : tableau de bord et gestion du catalogue, réservé aux administrateurs
 - Toute autre URL : page 404
 
 Les données du catalogue et les commandes sont chargées depuis Supabase avec React Query. Les produits sont publiquement lisibles; les routes de compte et le passage de commande nécessitent une session Supabase.

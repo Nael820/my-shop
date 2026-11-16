@@ -101,12 +101,28 @@ export type Database = {
           }
         ]
       >
+      profiles: Table<
+        {
+          id: string
+          role: string
+          created_at: string
+        },
+        {
+          id: string
+          role?: string
+          created_at?: string
+        }
+      >
     }
     Views: Record<string, never>
     Functions: {
       place_order: {
         Args: { p_items: Json }
         Returns: string
+      }
+      is_admin: {
+        Args: Record<string, never>
+        Returns: boolean
       }
     }
     Enums: Record<string, never>

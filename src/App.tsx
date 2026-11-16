@@ -6,6 +6,7 @@ import { usePlaceOrder } from '@/features/orders/usePlaceOrder'
 import { useProductsQuery } from '@/features/products/queries'
 import { useAuth } from '@/features/auth/useAuth'
 import { ProtectedRoute } from '@/features/auth/ProtectedRoute'
+import { AdminRoute } from '@/features/admin/AdminRoute'
 import HomePage from '@/pages/HomePage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import OrdersPage from '@/pages/OrdersPage'
@@ -14,6 +15,7 @@ import ProductsPage from '@/pages/ProductsPage'
 import LoginPage from '@/pages/LoginPage'
 import SignupPage from '@/pages/SignupPage'
 import AccountPage from '@/pages/AccountPage'
+import AdminPage from '@/pages/AdminPage'
 import '@/App.css'
 
 function App() {
@@ -69,6 +71,8 @@ function App() {
         ? 'orders'
         : pathname === '/account'
           ? 'account'
+          : pathname === '/admin'
+            ? 'admin'
         : null
 
   return (
@@ -87,6 +91,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/account" element={<ProtectedRoute><AccountPage /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminRoute><AdminPage /></AdminRoute></ProtectedRoute>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <SiteFooter />

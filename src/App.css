@@ -310,6 +310,27 @@
 .status-pending { background: #fbf0dc; color: #95641c; }
 .status-cancelled { background: #f7e6e3; color: #a14337; }
 .status-shipped { background: #e6edf6; color: #3b5f8e; }
+.admin-page { min-height: 650px; padding: 55px 0 80px; }
+.admin-intro { margin-bottom: 22px; }
+.admin-metrics { display: grid; grid-template-columns: repeat(3,1fr); margin: 22px 0; border: 1px solid var(--line); }
+.admin-metric { display: grid; gap: 7px; padding: 16px; border-right: 1px solid var(--line); }
+.admin-metric:last-child { border-right: 0; }
+.admin-metric span, .admin-section-heading > span { color: var(--muted); font-size: 10px; }
+.admin-metric strong { color: var(--ink); font-family: var(--display); font-size: 24px; font-weight: 500; }
+.admin-layout { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(280px,.8fr); gap: 30px; align-items: start; }
+.admin-products, .admin-form-section { min-width: 0; padding: 20px; border: 1px solid var(--line); }
+.admin-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+.admin-section-heading h2 { margin: 0; color: var(--ink); font-family: var(--display); font-size: 22px; font-weight: 500; }
+.admin-product-list { border-top: 1px solid var(--line); }
+.admin-product-row { display: flex; justify-content: space-between; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.admin-product-copy { min-width: 0; display: grid; gap: 5px; }
+.admin-product-copy strong { color: var(--ink); font-size: 11px; }
+.admin-product-copy span { overflow-wrap: anywhere; color: var(--muted); font-size: 9px; }
+.admin-product-actions { display: flex; flex-wrap: wrap; align-content: center; gap: 10px; }
+.admin-form { display: grid; gap: 13px; }
+.admin-form textarea { resize: vertical; padding: 8px 10px; border: 1px solid var(--line); color: var(--ink); font: inherit; }
+.admin-stock-field { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
+.admin-order-summary { margin-top: 35px; }
 .site-footer { display: flex; justify-content: space-between; gap: 20px; margin-top: auto; padding: 22px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 9px; }
 .site-footer > span:last-child span { margin-left: 5px; color: var(--coral); }
 .footer-dot { padding: 0 4px; color: var(--coral); }
@@ -354,6 +375,10 @@
   .summary-cell:nth-child(-n + 2) { border-bottom: 1px solid var(--line); }
   .order-row { grid-template-columns: 1fr 1fr; gap: 13px; padding: 15px 4px; }
   .order-status { grid-column: 1 / -1; }
+  .admin-page { padding: 40px 0 60px; }
+  .admin-layout { grid-template-columns: 1fr; }
+  .admin-metric { padding: 12px; }
+  .admin-product-row { flex-direction: column; }
   .site-footer { flex-direction: column; gap: 7px; }
 }
 
