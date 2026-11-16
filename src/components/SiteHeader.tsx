@@ -1,11 +1,26 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import type { Session } from '@supabase/supabase-js'
 
 type SiteHeaderProps = {
-  activePage: 'home' | 'products' | 'orders' | null
+  activePage: 'home' | 'products' | 'orders' | 'account' | null
   cartCount: number
+  session: Session | null
+  onSignOut: () => Promise<void>
 }
 
-function SiteHeader({ activePage, cartCount }: SiteHeaderProps) {
+function SiteHeader({ activePage, cartCount, session, onSignOut }: SiteHeaderProps) {
+  const [signOutError, setSignOutError] = useState<string | null>(null)
+
+  async function handleSignOut() {
+    setSignOutError(null)
+    try {
+      await onSignOut()
+    } catch (error) {
+      setSignOutError(error instanceof Error ? error.message : 'La déconnexion a échoué.')
+    }
+  }
+
   return (
     <header className="topbar">
       <Link className="wordmark" to="/">
@@ -23,14 +38,29 @@ function SiteHeader({ activePage, cartCount }: SiteHeaderProps) {
           Commandes
         </Link>
       </nav>
-      <Link
-        className="cart-button"
-        to={activePage === 'home' || activePage === 'products' ? '#basket' : '/#basket'}
-        aria-label={`Voir le panier, ${cartCount} article(s)`}
-      >
-        <span>Panier</span>
-        <span className="cart-count">{cartCount}</span>
-      </Link>
+      <div className="header-actions">
+        {session ? (
+          <>
+            <Link className="auth-link" to="/account" aria-current={activePage === 'account' ? 'page' : undefined}>
+              {session.user.email}
+            </Link>
+            <button className="auth-link auth-signout" type="button" onClick={() => void handleSignOut()}>
+              Déconnexion
+            </button>
+          </>
+        ) : (
+          <Link className="auth-link" to="/login">Connexion</Link>
+        )}
+        <Link
+          className="cart-button"
+          to={activePage === 'home' || activePage === 'products' ? '#basket' : '/#basket'}
+          aria-label={`Voir le panier, ${cartCount} article(s)`}
+        >
+          <span>Panier</span>
+          <span className="cart-count">{cartCount}</span>
+        </Link>
+        {signOutError && <span className="header-error" role="alert">{signOutError}</span>}
+      </div>
     </header>
   )
 }

@@ -191,7 +191,12 @@
 .nav-link { position: relative; height: 100%; padding: 0; border: 0; background: none; color: var(--muted); font: inherit; font-size: 13px; text-decoration: none; cursor: pointer; }
 .nav-link.is-active { color: var(--ink); }
 .nav-link.is-active::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--coral); content: ''; }
-.cart-button { justify-self: end; display: inline-flex; align-items: center; gap: 10px; padding: 8px 0 8px 12px; border: 0; background: none; color: var(--ink); font: inherit; font-size: 13px; text-decoration: none; cursor: pointer; }
+.header-actions { position: relative; justify-self: end; display: flex; align-items: center; gap: 12px; min-width: 0; }
+.auth-link { overflow: hidden; max-width: 125px; color: var(--muted); font: inherit; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.auth-link:hover { color: var(--coral); }
+.auth-signout { padding: 0; border: 0; background: none; cursor: pointer; }
+.header-error { position: absolute; top: 100%; right: 0; z-index: 1; color: #a14337; font-size: 10px; }
+.cart-button { display: inline-flex; align-items: center; gap: 10px; padding: 8px 0 8px 12px; border: 0; background: none; color: var(--ink); font: inherit; font-size: 13px; text-decoration: none; cursor: pointer; }
 .cart-count { display: grid; min-width: 25px; height: 25px; padding: 0 6px; place-items: center; border-radius: 50%; background: var(--ink); color: white; font-size: 11px; }
 .intro-band { min-height: 260px; margin: 0 -54px; padding: 48px 54px 43px; display: flex; align-items: center; justify-content: space-between; background: var(--green-wash); animation: appear 480ms ease-out both; }
 .eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 15px; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; }
@@ -274,6 +279,16 @@
 .not-found-page .add-button { margin-top: 8px; }
 .fetch-message { padding: 30px 0; color: var(--muted); font-size: 13px; }
 .error-message { color: #a14337; }
+.auth-page { display: grid; flex: 1; place-items: center; padding: 48px 0; }
+.auth-form { display: grid; width: min(420px, 100%); gap: 16px; padding: 28px; border: 1px solid var(--line); }
+.auth-form h1 { margin: 0; color: var(--ink); font-family: var(--display); font-size: 36px; font-weight: 500; }
+.auth-field { display: grid; gap: 7px; color: var(--muted); font-size: 11px; }
+.auth-field input { min-height: 40px; padding: 8px 10px; border: 1px solid var(--line); background: white; color: var(--ink); font: inherit; }
+.auth-error, .auth-success { font-size: 11px; }
+.auth-error { color: #a14337; }
+.auth-success { color: var(--green); }
+.auth-switch { color: var(--muted); font-size: 11px; }
+.auth-switch a { color: var(--ink); }
 .orders-page { min-height: 650px; padding: 72px 0 90px; }
 .orders-intro { padding: 35px 40px; background: var(--green-wash); animation: appear 450ms ease-out both; }
 .orders-intro h1 { font-size: 46px; }
@@ -313,6 +328,8 @@
   .main-nav { gap: 15px; }
   .nav-link { font-size: 11px; }
   .cart-button { gap: 6px; font-size: 11px; }
+  .header-actions { gap: 7px; }
+  .auth-link { max-width: 72px; font-size: 9px; }
   .intro-band { min-height: 0; margin-inline: -18px; padding: 40px 18px; }
   .intro-copy h1 { max-width: 390px; font-size: 42px; }
   .intro-description { max-width: 350px; font-size: 12px; }
