@@ -1,11 +1,12 @@
+import type { UseQueryResult } from '@tanstack/react-query'
 import CartPanel from '@/components/CartPanel'
 import ProductList from '@/features/products/ProductList'
-import type { Cart, FetchResult, Product } from '@/types/ecommerce'
+import type { Cart, Product } from '@/types/ecommerce'
 
 type ProductsPageProps = {
   cart: Cart
   products: Product[]
-  productsResult: FetchResult<Product[]>
+  productsResult: UseQueryResult<Product[], Error>
   onAddToCart: (productId: string) => void
   onRemoveFromCart: (productId: string) => void
   onClearCart: () => void

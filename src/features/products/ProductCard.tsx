@@ -15,7 +15,7 @@ function ProductCard({ product, priority = false }: ProductCardProps) {
 
   return (
     <article className="product-card">
-      <Link className="product-image-link" to={`/products/${product.id}`} aria-label={`Voir ${product.name}`}>
+      <Link className="product-image-link" to={`/products/${product.slug}`} aria-label={`Voir ${product.name}`}>
         <div className="product-image-wrap">
           {product.image && (
             <img

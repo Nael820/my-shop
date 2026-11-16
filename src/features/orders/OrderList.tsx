@@ -1,24 +1,23 @@
 import type { ReactNode } from 'react'
-import { useFetch } from '@/hooks/useFetch'
-import type { Order, OrdersByStatus, OrderStatus, OrderSummary } from '@/types/orders'
-import { labelStatus, pluck } from '@/types/orders'
+import { useOrdersQuery, type OrderListItem } from '@/features/orders/queries'
+import type { OrdersByStatus, OrderStatus } from '@/types/orders'
+import { labelStatus } from '@/types/orders'
 
 const orderStatuses: OrderStatus[] = ['pending', 'paid', 'shipped', 'cancelled']
 
 function OrderList() {
-  const result = useFetch<Order[]>('/data/orders.json')
+  const result = useOrdersQuery()
   let content: ReactNode
 
   switch (result.status) {
-    case 'idle':
-    case 'loading':
+    case 'pending':
       content = <p className="fetch-message" role="status">Chargement des commandes…</p>
       break
     case 'error':
-      content = <p className="fetch-message error-message" role="alert">{result.message}</p>
+      content = <p className="fetch-message error-message" role="alert">{result.error.message}</p>
       break
     case 'success': {
-      const ordersByStatus: OrdersByStatus = {
+      const ordersByStatus: OrdersByStatus<OrderListItem> = {
         pending: [],
         paid: [],
         shipped: [],
@@ -28,8 +27,6 @@ function OrderList() {
       for (const order of result.data) {
         ordersByStatus[order.status].push(order)
       }
-
-      const totalRevenue = pluck(result.data, 'total').reduce((total, amount) => total + amount, 0)
 
       content = (
         <>
@@ -41,28 +38,23 @@ function OrderList() {
               </div>
             ))}
           </div>
-          <p className="orders-total">Montant total des commandes : <strong>{totalRevenue} €</strong></p>
+          <p className="orders-total">
+            Nombre de commandes : <strong>{result.data.length}</strong>
+          </p>
           {result.data.length === 0 ? (
             <p className="fetch-message">Aucune commande pour le moment.</p>
           ) : (
             <div className="order-list">
-              {result.data.map((order) => {
-                const summary: OrderSummary = {
-                  id: order.id,
-                  customerEmail: order.customerEmail,
-                  total: order.total,
-                }
-
-                return (
-                  <article className="order-row" key={summary.id}>
-                    <div><span>Commande</span><strong>{summary.id}</strong></div>
-                    <div><span>Client</span><strong>{summary.customerEmail}</strong></div>
-                    <div><span>Date</span><strong>{new Date(String(order.createdAt)).toLocaleDateString('fr-FR')}</strong></div>
-                    <div><span>Total</span><strong>{summary.total} €</strong></div>
-                    <span className={`order-status status-${order.status}`}>{labelStatus(order.status)}</span>
-                  </article>
-                )
-              })}
+              {result.data.map((order) => (
+                <article className="order-row" key={order.id}>
+                  <div><span>Commande</span><strong>{order.id}</strong></div>
+                  <div>
+                    <span>Date</span>
+                    <strong>{new Date(order.createdAt).toLocaleDateString('fr-FR')}</strong>
+                  </div>
+                  <span className={`order-status status-${order.status}`}>{labelStatus(order.status)}</span>
+                </article>
+              ))}
             </div>
           )}
         </>

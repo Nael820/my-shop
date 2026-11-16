@@ -22,7 +22,7 @@ export type OrderEvent =
 
 export type OrderSummary = Pick<Order, 'id' | 'customerEmail' | 'total'>
 export type UpdateOrderInput = Partial<Omit<Order, 'id' | 'createdAt'>>
-export type OrdersByStatus = Record<OrderStatus, Order[]>
+export type OrdersByStatus<T extends { status: OrderStatus }> = Record<OrderStatus, T[]>
 
 export const carriers = {
   colissimo: 'Colissimo',

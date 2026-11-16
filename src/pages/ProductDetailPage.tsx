@@ -1,12 +1,12 @@
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import CartPanel from '@/components/CartPanel'
-import type { Cart, FetchResult, Product } from '@/types/ecommerce'
+import type { Cart, Product } from '@/types/ecommerce'
 import { getResponsiveProductImage } from '@/features/products/productImages'
+import { useProductQuery } from '@/features/products/queries'
 
 type ProductDetailPageProps = {
   cart: Cart
   products: Product[]
-  productsResult: FetchResult<Product[]>
   onAddToCart: (productId: string) => void
   onRemoveFromCart: (productId: string) => void
   onClearCart: () => void
@@ -15,16 +15,14 @@ type ProductDetailPageProps = {
 function ProductDetailPage({
   cart,
   products,
-  productsResult,
   onAddToCart,
   onRemoveFromCart,
   onClearCart,
 }: ProductDetailPageProps) {
-  const { id } = useParams<{ id: string }>()
+  const { id: slug } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const product = id && productsResult.status === 'success'
-    ? productsResult.data.find((item) => item.id === id)
-    : undefined
+  const productResult = useProductQuery(slug ?? '')
+  const product = productResult.data ?? undefined
   const image = product?.image
     ? getResponsiveProductImage(product.image, [400, 480, 600, 800, 900, 1200], 900)
     : null
@@ -46,13 +44,18 @@ function ProductDetailPage({
       </section>
       <div className="shop-layout">
         <section className="catalog-section" aria-live="polite">
-          {productsResult.status === 'idle' || productsResult.status === 'loading' ? (
-            <p className="fetch-message" role="status">Chargement du produit…</p>
-          ) : productsResult.status === 'error' ? (
-            <p className="fetch-message error-message" role="alert">{productsResult.message}</p>
-          ) : !id || !product ? (
+          {!slug ? (
             <div className="fetch-message">
-              <p>{!id ? 'Identifiant de produit manquant.' : `Aucun produit avec l’identifiant « ${id} ».`}</p>
+              <p>Identifiant de produit manquant.</p>
+              <Link className="add-button" to="/products">Retour aux produits</Link>
+            </div>
+          ) : productResult.isPending ? (
+            <p className="fetch-message" role="status">Chargement du produit…</p>
+          ) : productResult.error ? (
+            <p className="fetch-message error-message" role="alert">{productResult.error.message}</p>
+          ) : !product ? (
+            <div className="fetch-message">
+              <p>Aucun produit avec l’identifiant « {slug} ».</p>
               <Link className="add-button" to="/products">Retour aux produits</Link>
             </div>
           ) : (

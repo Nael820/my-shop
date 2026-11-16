@@ -1,5 +1,6 @@
 export interface Product {
   id: string
+  slug: string
   name: string
   price: number
   inStock: boolean
@@ -70,8 +71,3 @@ export type CreateProductInput = Omit<Product, 'id'>
 export type UpdateProductInput = Partial<CreateProductInput>
 
 // Use this type for the cart, indexed by product ID.
-export type FetchResult<T> =
-  | { status: 'idle' }
-  | { status: 'loading' }
-  | { status: 'success'; data: T }
-  | { status: 'error'; message: string }

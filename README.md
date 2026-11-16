@@ -1,6 +1,15 @@
 # Maison Moderne
 
-Boutique de démonstration construite avec React et TypeScript strict. Le catalogue et les commandes sont chargés depuis les fichiers JSON statiques de `public/data/` ; aucun serveur API n'est nécessaire.
+Boutique de démonstration construite avec React, TypeScript, React Query et Supabase.
+
+## Configuration Supabase
+
+1. Créez un projet Supabase.
+2. Dans le SQL Editor du projet, exécutez `supabase/migrations/20261116143000_create_shop_schema.sql`.
+3. Exécutez `supabase/seed.sql` pour importer le catalogue de démonstration.
+4. Copiez `.env.example` vers `.env.local` et renseignez l’URL du projet et sa clé `anon` publique.
+
+La clé `service_role` ne doit jamais être utilisée dans le navigateur. Les tables `orders` et `order_items` ont la RLS activée et restent inaccessibles tant que leurs policies utilisateur ne sont pas ajoutées au jalon 3.
 
 ## Démarrer
 
@@ -13,11 +22,11 @@ npm run dev
 
 - `/` : accueil et sélection de produits
 - `/products` : catalogue complet
-- `/products/:id` : détail d'un produit
-- `/orders` : liste et regroupement des commandes par statut
+- `/products/:slug` : détail d'un produit
+- `/orders` : commandes accessibles selon les policies RLS
 - Toute autre URL : page 404
 
-Le panier est partagé entre les pages pendant la session. Les routes utilisent React Router pour naviguer sans rechargement.
+Les données du catalogue sont chargées depuis Supabase avec React Query. Les produits sont publiquement lisibles; les commandes restent protégées par défaut.
 
 ## Vérifier le projet
 
@@ -25,5 +34,3 @@ Le panier est partagé entre les pages pendant la session. Les routes utilisent 
 npm run build
 npm run lint
 ```
-
-Le mode strict est activé dans `tsconfig.app.json`. Les images du catalogue et les polices sont chargées en ligne.
