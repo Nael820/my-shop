@@ -1,5 +1,6 @@
 import type { Product } from '@/types/ecommerce'
 import { Link } from 'react-router-dom'
+import { getResponsiveProductImage } from '@/features/products/productImages'
 
 type ProductCardProps = {
   product: Product
@@ -7,31 +8,10 @@ type ProductCardProps = {
   priority?: boolean // true uniquement pour la 1ère carte visible (LCP)
 }
 
-const IMG_WIDTH = 600
-const IMG_HEIGHT = 400 // ratio 3:2, doit correspondre au ratio affiché en CSS
-
-// Construit une URL Unsplash optimisée (WebP, qualité 70, recadrée en 3:2)
-function unsplash(src: string, w: number) {
-  const url = new URL(src)
-  url.searchParams.set('auto', 'format')
-  url.searchParams.set('fit', 'crop')
-  url.searchParams.set('w', String(w))
-  url.searchParams.set('h', String(Math.round((w * IMG_HEIGHT) / IMG_WIDTH)))
-  url.searchParams.set('q', '70')
-  url.searchParams.set('fm', 'webp')
-  return url.toString()
-}
-
-function isUnsplash(src: string) {
-  try {
-    return new URL(src).hostname === 'images.unsplash.com'
-  } catch {
-    return false
-  }
-}
-
 function ProductCard({ product, priority = false }: ProductCardProps) {
-  const optimized = product.image && isUnsplash(product.image)
+  const image = product.image
+    ? getResponsiveProductImage(product.image, [240, 320, 400, 480, 600, 800, 900])
+    : null
 
   return (
     <article className="product-card">
@@ -40,15 +20,11 @@ function ProductCard({ product, priority = false }: ProductCardProps) {
           {product.image && (
             <img
               className="product-image"
-              src={optimized ? unsplash(product.image, IMG_WIDTH) : product.image}
-              srcSet={
-                optimized
-                  ? [400, 600, 900].map((w) => `${unsplash(product.image!, w)} ${w}w`).join(', ')
-                  : undefined
-              }
-              sizes="(max-width: 640px) 100vw, 321px"
-              width={IMG_WIDTH}
-              height={IMG_HEIGHT}
+              src={image?.src}
+              srcSet={image?.srcSet}
+              sizes="(max-width: 390px) calc(100vw - 26px), (max-width: 720px) calc((100vw - 49px) / 2), (max-width: 1000px) calc((100vw - 328px) / 2), (max-width: 1360px) calc((100vw - 433px) / 2), 464px"
+              width={600}
+              height={400}
               alt={product.name}
               decoding="async"
               loading={priority ? 'eager' : 'lazy'}
