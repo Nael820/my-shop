@@ -10,6 +10,10 @@ type ProductsPageProps = {
   onAddToCart: (productId: string) => void
   onRemoveFromCart: (productId: string) => void
   onClearCart: () => void
+  onCheckout: () => void
+  checkoutPending: boolean
+  checkoutError: string | null
+  checkoutSucceeded: boolean
 }
 
 function ProductsPage({
@@ -19,6 +23,10 @@ function ProductsPage({
   onAddToCart,
   onRemoveFromCart,
   onClearCart,
+  onCheckout,
+  checkoutPending,
+  checkoutError,
+  checkoutSucceeded,
 }: ProductsPageProps) {
   return (
     <main className="products-page">
@@ -44,6 +52,10 @@ function ProductsPage({
           products={products}
           onRemove={onRemoveFromCart}
           onClear={onClearCart}
+          onCheckout={onCheckout}
+          checkoutPending={checkoutPending}
+          checkoutError={checkoutError}
+          checkoutSucceeded={checkoutSucceeded}
         />
       </div>
     </main>

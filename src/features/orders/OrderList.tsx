@@ -52,6 +52,14 @@ function OrderList() {
                     <span>Date</span>
                     <strong>{new Date(order.createdAt).toLocaleDateString('fr-FR')}</strong>
                   </div>
+                  <div>
+                    <span>Articles</span>
+                    <strong>{order.items.map((item) => `${item.name} × ${item.quantity}`).join(', ')}</strong>
+                  </div>
+                  <div>
+                    <span>Total</span>
+                    <strong>{order.total.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}</strong>
+                  </div>
                   <span className={`order-status status-${order.status}`}>{labelStatus(order.status)}</span>
                 </article>
               ))}

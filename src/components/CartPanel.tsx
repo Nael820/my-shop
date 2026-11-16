@@ -5,9 +5,22 @@ type CartPanelProps = {
   products: Product[]
   onRemove: (productId: string) => void
   onClear: () => void
+  onCheckout: () => void
+  checkoutPending: boolean
+  checkoutError: string | null
+  checkoutSucceeded: boolean
 }
 
-function CartPanel({ cart, products, onRemove, onClear }: CartPanelProps) {
+function CartPanel({
+  cart,
+  products,
+  onRemove,
+  onClear,
+  onCheckout,
+  checkoutPending,
+  checkoutError,
+  checkoutSucceeded,
+}: CartPanelProps) {
   const lines = Object.values(cart)
   const itemCount = lines.reduce((total, line) => total + line.quantity, 0)
   const getProductName = (productId: string) =>
@@ -40,6 +53,7 @@ function CartPanel({ cart, products, onRemove, onClear }: CartPanelProps) {
               <button
                 className="remove-button"
                 type="button"
+                disabled={checkoutPending}
                 onClick={() => onRemove(line.productId)}
                 aria-label={`Retirer ${getProductName(line.productId)} du panier`}
               >
@@ -47,10 +61,17 @@ function CartPanel({ cart, products, onRemove, onClear }: CartPanelProps) {
               </button>
             </div>
           ))}
-          <button className="clear-cart" type="button" onClick={onClear}>
+          <button className="clear-cart" type="button" onClick={onClear} disabled={checkoutPending}>
             Vider le panier
           </button>
+          <button className="add-button checkout-button" type="button" onClick={onCheckout} disabled={checkoutPending}>
+            {checkoutPending ? 'Commande en cours…' : 'Passer commande'}
+          </button>
+          {checkoutError && <p className="auth-error" role="alert">{checkoutError}</p>}
         </div>
+      )}
+      {checkoutSucceeded && (
+        <p className="auth-success" role="status">Commande enregistrée. Retrouvez-la dans votre compte.</p>
       )}
       <div className="cart-footnote"><span className="footnote-check">✓</span> Livraison offerte dès 80 €</div>
     </aside>

@@ -10,6 +10,10 @@ type ProductDetailPageProps = {
   onAddToCart: (productId: string) => void
   onRemoveFromCart: (productId: string) => void
   onClearCart: () => void
+  onCheckout: () => void
+  checkoutPending: boolean
+  checkoutError: string | null
+  checkoutSucceeded: boolean
 }
 
 function ProductDetailPage({
@@ -18,6 +22,10 @@ function ProductDetailPage({
   onAddToCart,
   onRemoveFromCart,
   onClearCart,
+  onCheckout,
+  checkoutPending,
+  checkoutError,
+  checkoutSucceeded,
 }: ProductDetailPageProps) {
   const { id: slug } = useParams<{ id: string }>()
   const navigate = useNavigate()
@@ -92,7 +100,7 @@ function ProductDetailPage({
                   <button
                     className="add-button"
                     type="button"
-                    disabled={!product.inStock}
+                    disabled={!product.inStock || checkoutPending}
                     onClick={() => onAddToCart(product.id)}
                   >
                     Ajouter au panier <span aria-hidden="true">＋</span>
@@ -107,6 +115,10 @@ function ProductDetailPage({
           products={products}
           onRemove={onRemoveFromCart}
           onClear={onClearCart}
+          onCheckout={onCheckout}
+          checkoutPending={checkoutPending}
+          checkoutError={checkoutError}
+          checkoutSucceeded={checkoutSucceeded}
         />
       </div>
     </main>

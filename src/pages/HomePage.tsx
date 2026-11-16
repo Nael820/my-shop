@@ -11,6 +11,10 @@ type HomePageProps = {
   onAddToCart: (productId: string) => void
   onRemoveFromCart: (productId: string) => void
   onClearCart: () => void
+  onCheckout: () => void
+  checkoutPending: boolean
+  checkoutError: string | null
+  checkoutSucceeded: boolean
 }
 
 function HomePage({
@@ -20,6 +24,10 @@ function HomePage({
   onAddToCart,
   onRemoveFromCart,
   onClearCart,
+  onCheckout,
+  checkoutPending,
+  checkoutError,
+  checkoutSucceeded,
 }: HomePageProps) {
   return (
     <main id="home">
@@ -57,6 +65,10 @@ function HomePage({
           products={products}
           onRemove={onRemoveFromCart}
           onClear={onClearCart}
+          onCheckout={onCheckout}
+          checkoutPending={checkoutPending}
+          checkoutError={checkoutError}
+          checkoutSucceeded={checkoutSucceeded}
         />
       </div>
     </main>

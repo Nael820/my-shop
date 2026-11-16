@@ -262,6 +262,7 @@
 .quantity-control { display: flex; align-items: center; gap: 7px; color: var(--ink); font-size: 10px; }
 .quantity-control button { width: 22px; height: 22px; padding: 0; border: 1px solid var(--line); background: white; color: var(--ink); font: inherit; cursor: pointer; }
 .clear-cart { justify-self: start; padding: 3px 0; border: 0; background: none; color: var(--muted); font: inherit; font-size: 9px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.checkout-button { width: 100%; justify-content: center; }
 .products-page { flex: 1; }
 .products-intro { min-height: 220px; }
 .hero-button { width: fit-content; margin-top: 20px; }
@@ -294,13 +295,14 @@
 .orders-intro h1 { font-size: 46px; }
 .orders-intro > p:last-child { margin-top: 12px; color: var(--muted); font-size: 12px; }
 .orders-content { padding-top: 35px; }
+.account-orders-title { margin: 35px 0 0; color: var(--ink); font-family: var(--display); font-size: 24px; font-weight: 500; }
 .order-summary-strip { display: grid; grid-template-columns: repeat(4,1fr); margin-bottom: 20px; border: 1px solid var(--line); }
 .summary-cell { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 13px 15px; border-right: 1px solid var(--line); }
 .summary-cell:last-child { border-right: 0; }
 .summary-cell span { color: var(--muted); font-size: 10px; }
 .summary-cell strong { color: var(--ink); font-size: 14px; }
 .order-list { border-top: 1px solid var(--line); }
-.order-row { display: grid; grid-template-columns: 1.4fr 1fr auto; align-items: center; gap: 16px; min-height: 77px; padding: 12px 10px; border-bottom: 1px solid var(--line); animation: appear 380ms ease-out both; }
+.order-row { display: grid; grid-template-columns: 1.2fr 1fr 1.5fr auto auto; align-items: center; gap: 16px; min-height: 77px; padding: 12px 10px; border-bottom: 1px solid var(--line); animation: appear 380ms ease-out both; }
 .order-row > div { min-width: 0; display: grid; gap: 5px; }
 .order-row > div span { color: var(--muted); font-size: 9px; }
 .order-row > div strong { overflow-wrap: anywhere; color: var(--ink); font-size: 11px; font-weight: 500; }
@@ -317,7 +319,7 @@
   .app-shell { padding: 0 30px; }
   .intro-band { margin-inline: -30px; padding-inline: 30px; }
   .shop-layout { grid-template-columns: minmax(0,1fr) 240px; gap: 28px; }
-  .order-row { grid-template-columns: 1.4fr 1fr auto; gap: 9px; }
+  .order-row { grid-template-columns: 1.2fr 1fr 1.5fr auto auto; gap: 9px; }
 }
 
 @media (max-width: 720px) {

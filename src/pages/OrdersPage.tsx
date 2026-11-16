@@ -6,7 +6,7 @@ function OrdersPage() {
       <section className="orders-intro">
         <p className="eyebrow"><span className="eyebrow-dot" /> Votre espace</p>
         <h1>Les <em>commandes.</em></h1>
-        <p>Suivez les commandes et leur statut.</p>
+        <p>Retrouvez le détail et le statut de vos commandes.</p>
       </section>
       <OrderList />
     </main>
