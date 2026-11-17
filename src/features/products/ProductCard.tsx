@@ -1,6 +1,7 @@
 import type { Product } from '@/types/ecommerce'
 import { Link } from 'react-router-dom'
 import { getResponsiveProductImage } from '@/features/products/productImages'
+import { formatPrice } from '@/lib/formatPrice'
 
 type ProductCardProps = {
   product: Product
@@ -8,7 +9,7 @@ type ProductCardProps = {
   priority?: boolean // true uniquement pour la 1ère carte visible (LCP)
 }
 
-function ProductCard({ product, priority = false }: ProductCardProps) {
+function ProductCard({ product, onAddToCart, priority = false }: ProductCardProps) {
   const image = product.image
     ? getResponsiveProductImage(product.image, [240, 320, 400, 480, 600, 800, 900])
     : null
@@ -35,7 +36,31 @@ function ProductCard({ product, priority = false }: ProductCardProps) {
           {product.category && <span className="product-category">{product.category}</span>}
         </div>
       </Link>
-      {/* ... reste inchangé ... */}
+      <div className="product-details">
+        <div className="product-title-row">
+          <h3>
+            <Link className="product-title-link" to={`/products/${product.slug}`}>
+              {product.name}
+            </Link>
+          </h3>
+          <span className="product-price">{formatPrice(product.price)}</span>
+        </div>
+        {product.description && <p>{product.description}</p>}
+        <div className="product-actions">
+          <span className={product.inStock ? 'stock-status' : 'stock-status is-out'}>
+            <span aria-hidden="true" />
+            {product.inStock ? 'En stock' : 'Épuisé'}
+          </span>
+          <button
+            className="add-button"
+            type="button"
+            disabled={!product.inStock}
+            onClick={() => onAddToCart(product.id)}
+          >
+            Ajouter au panier <span aria-hidden="true">＋</span>
+          </button>
+        </div>
+      </div>
     </article>
   )
 }
