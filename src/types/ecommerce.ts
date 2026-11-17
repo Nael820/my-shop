@@ -30,6 +30,9 @@ export type Cart = Record<string, CartLine>
 export function applyAction(cart: Cart, action: CartAction): Cart {
   switch (action.type) {
     case 'addToCart': {
+      if (!Number.isInteger(action.quantity) || action.quantity <= 0) {
+        return cart
+      }
       const existing = cart[action.productId]
       return {
         ...cart,

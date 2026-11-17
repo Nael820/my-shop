@@ -262,6 +262,8 @@
 .quantity-control { display: flex; align-items: center; gap: 7px; color: var(--ink); font-size: 10px; }
 .quantity-control button { width: 22px; height: 22px; padding: 0; border: 1px solid var(--line); background: white; color: var(--ink); font: inherit; cursor: pointer; }
 .clear-cart { justify-self: start; padding: 3px 0; border: 0; background: none; color: var(--muted); font: inherit; font-size: 9px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cart-total { display: flex; justify-content: space-between; margin: 2px 0; color: var(--muted); font-size: 10px; }
+.cart-total strong { color: var(--ink); }
 .checkout-button { width: 100%; justify-content: center; }
 .products-page { flex: 1; }
 .products-intro { min-height: 220px; }

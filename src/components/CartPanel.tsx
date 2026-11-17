@@ -1,4 +1,6 @@
 import type { Cart, Product } from '@/types/ecommerce'
+import { computeCartTotal } from '@/features/cart/cart'
+import { formatPrice } from '@/lib/formatPrice'
 
 type CartPanelProps = {
   cart: Cart
@@ -25,6 +27,10 @@ function CartPanel({
   const itemCount = lines.reduce((total, line) => total + line.quantity, 0)
   const getProductName = (productId: string) =>
     products.find((product) => product.id === productId)?.name ?? productId
+  const total = computeCartTotal(lines.flatMap((line) => {
+    const product = products.find((item) => item.id === line.productId)
+    return product ? [{ product, quantity: line.quantity }] : []
+  }))
 
   return (
     <aside className="cart-panel" id="basket" aria-labelledby="cart-title">
@@ -64,6 +70,7 @@ function CartPanel({
           <button className="clear-cart" type="button" onClick={onClear} disabled={checkoutPending}>
             Vider le panier
           </button>
+          <p className="cart-total">Total <strong>{formatPrice(total)}</strong></p>
           <button className="add-button checkout-button" type="button" onClick={onCheckout} disabled={checkoutPending}>
             {checkoutPending ? 'Commande en cours…' : 'Passer commande'}
           </button>

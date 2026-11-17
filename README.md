@@ -47,4 +47,6 @@ Les données du catalogue et les commandes sont chargées depuis Supabase avec R
 ```sh
 npm run build
 npm run lint
+npm test
+npm run test:watch
 ```
